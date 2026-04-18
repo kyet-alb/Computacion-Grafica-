@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creación de Círculo</title>
+</head>
+<body>
+    <h2>Dibujo de un círculo</h2>
+    
+    <canvas id="myCanvas" width="400" height="400" style="border: 1px solid #000000;">
+        Tu navegador no soporta el elemento canvas
+    </canvas>
+    
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        // Círculo centrado en el canvas (200, 200) con radio 100
+        ctx.arc(200, 200, 100, 0, 2 * Math.PI);
+        
+        // Estilos de relleno y borde
+        ctx.fillStyle = "green";
+        ctx.strokeStyle = "#003300";  // Verde oscuro para el borde
+        ctx.lineWidth = 3;            // Grosor del borde
+        
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath(); // Buena práctica para cerrar el trazado
+    </script>
+</body>
+</html>

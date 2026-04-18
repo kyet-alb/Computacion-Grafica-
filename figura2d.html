@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4: Gráfica de y = x²</title>
+    
+    <!-- Estilos CSS básicos para centrar el contenido -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        /* Contenedor para el canvas, le da un tamaño relativo */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
+    <!-- Importamos la librería Chart.js desde un CDN (Content Delivery Network) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Ejercicio 4: Graficar una Función</h1>
+        <p>A continuación se muestra la gráfica de la función cuadrática <strong>y = x²</strong>.</p>
+        
+        <!-- Este es el elemento donde se dibujará la gráfica -->
+        <div class="chart-container">
+            <canvas id="miGrafica"></canvas>
+        </div>
+    </div>
+
+    <!-- Script de JavaScript para generar los datos y crear la gráfica -->
+    <script>
+        // 1. Definir la función matemática
+        function f(x) {
+            return x * x; // Esta es la función y = x^2
+        }
+
+        // 2. Generar los puntos de datos (x, y)
+        const xValues = [];
+        const yValues = [];
+        const start = -10; // Valor inicial de x
+        const end = 10;    // Valor final de x
+        const step = 0.5;  // Incremento entre cada punto (más pequeño = curva más suave)
+
+        for (let x = start; x <= end; x += step) {
+            xValues.push(x.toFixed(1)); // Guardamos x como texto para la etiqueta
+            yValues.push(f(x));         // Calculamos y y lo guardamos
+        }
+
+        // 3. Obtener el contexto del canvas y configurar la gráfica
+        const ctx = document.getElementById('miGrafica').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line', // Tipo de gráfico: línea
+            data: {
+                labels: xValues, // Las etiquetas del eje X
+                datasets: [{
+                    label: 'y = x²',
+                    data: yValues, // Los valores del eje Y
+                    borderColor: 'rgba(75, 192, 192, 1)', // Color de la línea
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de relleno bajo la línea
+                    borderWidth: 3,
+                    pointRadius: 0, // Ocultamos los puntos para que se vea como una curva continua
+                    fill: true,     // Rellenar el área bajo la curva
+                    tension: 0.4    // Suaviza la línea para que parezca una curva real
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Eje X'
+                        },
+                        grid: {
+                            color: '#e0e0e0' // Color de las líneas de la cuadrícula
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Eje Y'
+                        },
+                        beginAtZero: true,
+                        grid: {
+                            color: '#e0e0e0'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

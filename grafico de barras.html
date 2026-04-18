@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico de Barras</title>
+</head>
+<body>
+
+<h3><center>Gráfico de Barras <br> trabajo realizado por: <br> ARENAS LLAMOCCA KYET ALBERT</center></h3>
+
+<canvas id="miGrafico" width="400" height="300" style="border:2px solid black;"></canvas>
+
+<script>
+    var canvas = document.getElementById("miGrafico");
+    var ctx = canvas.getContext("2d");
+
+    // Datos: [etiqueta, valor (%), color]
+    var datos = [
+        { label: "50%", valor: 50, color: "red" },
+        { label: "60%", valor: 60, color: "blue" },
+        { label: "70%", valor: 70, color: "green" },
+        { label: "90%", valor: 90, color: "orange" },
+        { label: "100%", valor: 100, color: "purple" },
+        { label: "100%", valor: 100, color: "black" }
+    ];
+
+    var anchoCanvas = canvas.width;
+    var altoCanvas = canvas.height;
+    var margenIzq = 40;
+    var margenDer = 20;
+    var margenSup = 20;
+    var margenInf = 20;
+
+    var areaAncho = anchoCanvas - margenIzq - margenDer;
+    var areaAlto = altoCanvas - margenSup - margenInf;
+
+    var numBarras = datos.length;
+    var anchoBarra = (areaAncho / numBarras) * 0.6; // 80% del espacio disponible
+    var espacioEntre = (areaAncho / numBarras) * 0.3;
+
+    // Dibujar cada barra
+    for (var i = 0; i < numBarras; i++) {
+        var d = datos[i];
+        var x = margenIzq + i * (anchoBarra + espacioEntre) + espacioEntre / 2;
+        var alturaBarra = (d.valor / 100) * areaAlto;
+        var y = altoCanvas - margenInf - alturaBarra;
+
+        // Dibujar barra
+        ctx.fillStyle = d.color;
+        ctx.fillRect(x, y, anchoBarra, alturaBarra);
+
+        // Dibujar etiqueta de porcentaje arriba de la barra
+        ctx.fillStyle = "red";
+        ctx.font = "14px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(d.label, x + anchoBarra / 2, y - 5);
+    }
+</script>
+
+</body>
+</html>

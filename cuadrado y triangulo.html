@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadrado y Triángulo Centrados</title>
+</head>
+<body>
+    <h2 style="text-align: center;">CUADRADO Y TRIÁNGULO CENTRADOS</h2>
+    
+    <canvas id="myCanvas" width="500" height="500" style="border:4px solid black;"></canvas>
+
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // --- CONFIGURACIÓN GENERAL ---
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black";
+
+        // --- 1. DIBUJAR LA LÍNEA HORIZONTAL DIVISORIA ---
+        ctx.beginPath();
+        ctx.moveTo(0, 250);   // Mitad vertical del canvas (500/2)
+        ctx.lineTo(500, 250);
+        ctx.stroke();
+        ctx.closePath();
+
+        // --- 2. DIBUJAR EL CUADRADO AZUL CLARO (CENTRADO ARRIBA) ---
+        const squareSize = 120; // Tamaño del lado
+        const squareX = (500 - squareSize) / 2; // Centrado: (500 - 120)/2 = 190
+        const squareY = 60;     // Espacio desde arriba
+
+        ctx.fillStyle = "blue";
+        ctx.fillRect(squareX, squareY, squareSize, squareSize);
+        ctx.strokeRect(squareX, squareY, squareSize, squareSize); // Borde opcional
+
+        // --- 3. DIBUJAR EL TRIÁNGULO ROSADO (CENTRADO ABAJO) ---
+        const triangleBase = 120;
+        const triangleHeight = 100;
+        const centerX = 250; // Centro horizontal del canvas
+        const triangleTopY = 300; // Empezar debajo de la línea (línea en Y=250)
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, triangleTopY);                     // Vértice superior
+        ctx.lineTo(centerX + triangleBase/2, triangleTopY + triangleHeight); // Inferior derecho
+        ctx.lineTo(centerX - triangleBase/2, triangleTopY + triangleHeight); // Inferior izquierdo
+        ctx.closePath();
+
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+        ctx.stroke(); // Borde negro opcional
+    </script>
+    
+</body>
+</html>

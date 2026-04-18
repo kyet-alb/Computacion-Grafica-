@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Barras con Canvas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        canvas {
+            background-color: white;
+            border: 2px solid #333;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            position: absolute;
+            top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📊 Ventas Mensuales (en miles $)</h2>
+    <canvas id="chartCanvas" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('chartCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // --- DATOS DEL GRÁFICO ---
+        const data = [
+            { label: 'Enero', value: 120 },
+            { label: 'Febrero', value: 190 },
+            { label: 'Marzo', value: 150 },
+            { label: 'Abril', value: 220 },
+            { label: 'Mayo', value: 180 },
+            { label: 'Junio', value: 250 }
+        ];
+
+        // --- CONFIGURACIÓN DEL GRÁFICO ---
+        const padding = 60; // Espacio para etiquetas
+        const barHeight = 40; // Altura de cada barra
+        const barSpacing = 20; // Espacio entre barras
+        const chartWidth = canvas.width - padding * 2;
+        const chartHeight = canvas.height - padding * 2;
+        const maxValue = Math.max(...data.map(d => d.value)); // Valor máximo para escalar
+
+        // --- DIBUJAR EJES ---
+        ctx.beginPath();
+        ctx.moveTo(padding, padding); // Origen (esquina superior izquierda del área de gráfico)
+        ctx.lineTo(padding, canvas.height - padding); // Eje Y
+        ctx.lineTo(canvas.width - padding, canvas.height - padding); // Eje X
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+
+        // --- DIBUJAR BARRAS Y ETIQUETAS ---
+        data.forEach((item, index) => {
+            const barWidth = (item.value / maxValue) * (chartWidth - 50); // Escalar ancho
+            const x = padding;
+            const y = padding + index * (barHeight + barSpacing);
+
+            // Dibujar barra
+            ctx.fillStyle = `hsl(${index * 50}, 70%, 60%)`; // Colores variados
+            ctx.fillRect(x, y, barWidth, barHeight);
+
+            // Borde de la barra
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, barWidth, barHeight);
+
+            // Etiqueta del valor (al final de la barra)
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            ctx.fillText(`$${item.value}k`, x + barWidth + 10, y + barHeight / 2 + 5);
+
+            // Etiqueta del mes (a la izquierda)
+            ctx.textAlign = 'right';
+            ctx.fillText(item.label, padding - 10, y + barHeight / 2 + 5);
+            ctx.textAlign = 'left'; // Resetear alineación
+        });
+
+        // --- TÍTULO DEL EJE X ---
+        ctx.fillStyle = '#333';
+        ctx.font = '12px Arial';
+        ctx.fillText('Miles de dólares', canvas.width - padding - 100, canvas.height - 20);
+    </script>
+
+</body>
+</html>
