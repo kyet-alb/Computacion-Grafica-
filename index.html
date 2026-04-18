@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>linea dinamica</title>
+</head>
+<body>
+    <h2>Línea Dinámica</h2>
+    <canvas id="myCanvas" width="800" height="400" style="border: 1px solid black;"></canvas>
+<!-- CODIGO JAVASCRIP -->
+
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    // Dimensiones del canvas
+    const width = canvas.width;
+    const height = canvas.height;
+    const centerX = width / 2;   // Eje Y pasa por aquí
+    const centerY = height / 2;  // Eje X pasa por aquí
+
+    // Variables para la gráfica
+    var xstart = -400;
+    var xend = 400;
+    var step = 0.5;
+    var time = 0;
+
+    // Función para dibujar el plano cartesiano SIMPLE (solo ejes)
+    function drawSimplePlane() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = '#999'; // Gris claro para no distraer
+        ctx.lineWidth = 1.5;
+
+        // Eje X
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(width, centerY);
+
+        // Eje Y
+        ctx.moveTo(centerX, 0);
+        ctx.lineTo(centerX, height);
+
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    // Función para dibujar la gráfica de la onda
+    function drawGraph() {
+        // Limpiar todo el canvas
+        ctx.clearRect(0, 0, width, height);
+
+        // Dibujar primero el plano cartesiano simple
+        drawSimplePlane();
+
+        // Ahora dibujamos la función senoidal
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+
+        let primerPunto = true;
+
+        for (var x = xstart; x <= xend; x += step) {
+            var y = Math.sin(x * 0.01 + time) * 100;
+
+            let canvasX = centerX + x;
+            let canvasY = centerY - y; // Restamos porque canvas Y va hacia abajo
+
+            if (primerPunto) {
+                ctx.moveTo(canvasX, canvasY);
+                primerPunto = false;
+            } else {
+                ctx.lineTo(canvasX, canvasY);
+            }
+        }
+
+        ctx.stroke();
+    }
+
+    // Función de animación
+    function animate() {
+        drawGraph();
+        time += 0.08;
+        requestAnimationFrame(animate);
+    }
+
+    // Iniciar animación
+    animate();
+</script>
+</body>
+</html>
